@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Academic Tasks Tracker</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-gray-950 text-gray-100 font-inter antialiased min-h-screen">
+    <div class="grid-background-dense animated-grid"></div>
+    <!-- Header -->
+    <header class="sticky top-0 z-50 bg-gray-950/80 backdrop-blur-md border-b border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-4">
+                    <div class="flex items-center">
+                        <div class="w-8 h-8 bg-purple-600 rounded-lg flex items-center justify-center">
+                            <span class="text-white font-bold text-lg">📝</span>
+                        </div>
+                        <span class="ml-3 text-xl font-semibold">TaskTracker</span>
+                    </div>
+                </div>
+                
+                <nav class="hidden md:flex space-x-8">
+                    <button onclick="showView('dashboard')" class="text-gray-300 hover:text-white transition-colors nav-btn active" data-view="dashboard">Dashboard</button>
+                    <button onclick="showView('tasks')" class="text-gray-300 hover:text-white transition-colors nav-btn" data-view="tasks">All Tasks</button>
+                    <button onclick="showView('calendar')" class="text-gray-300 hover:text-white transition-colors nav-btn" data-view="calendar">Calendar</button>
+                    <button onclick="showView('analytics')" class="text-gray-300 hover:text-white transition-colors nav-btn" data-view="analytics">Analytics</button>
+                </nav>
+
+                <div class="flex items-center space-x-4">
+                    <button onclick="toggleTheme()" class="p-2 rounded-lg bg-gray-800 hover:bg-gray-700 transition-colors">
+                        <span id="theme-icon">🌙</span>
+                    </button>
+                    <button onclick="showAddTaskModal()" class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg font-medium transition-colors">
+                        + New Task
+                    </button>
+                </div>
+
+                <!-- Mobile menu button -->
+                <button onclick="toggleMobileMenu()" class="md:hidden p-2 rounded-lg bg-gray-800">
+                    <div class="w-6 h-6 flex flex-col justify-center items-center">
+                        <span class="block w-4 h-0.5 bg-white mb-1"></span>
+                        <span class="block w-4 h-0.5 bg-white mb-1"></span>
+                        <span class="block w-4 h-0.5 bg-white"></span>
+                    </div>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-gray-900 border-t border-gray-800">
+            <div class="px-4 py-4 space-y-2">
+                <button onclick="showView('dashboard')" class="block w-full text-left py-2 text-gray-300 hover:text-white">Dashboard</button>
+                <button onclick="showView('tasks')" class="block w-full text-left py-2 text-gray-300 hover:text-white">All Tasks</button>
+                <button onclick="showView('calendar')" class="block w-full text-left py-2 text-gray-300 hover:text-white">Calendar</button>
+                <button onclick="showView('analytics')" class="block w-full text-left py-2 text-gray-300 hover:text-white">Analytics</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Dashboard View -->
+        <div id="dashboard-view" class="view-content">
+            <!-- Welcome Header with Grid Background -->
+            <div class="mb-12 relative overflow-hidden rounded-xl border border-gray-800">
+                <div class="content-wrapper">
+                    <div class="bg-gradient-to-r from-purple-900/50 to-blue-900/50 p-8">
+                        <h1 class="text-4xl sm:text-5xl font-bold mb-4 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+                            📝 Academic Tasks Tracker
+                        </h1>
+                        <p class="text-lg text-gray-300 max-w-3xl">
+                            Stay on top of your coursework! Track all your academic assignments, quizzes, and study sessions in one place. 
+                            Sort by priority and due dates to manage your workload effectively.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Task Status Overview -->
+            <div class="mb-12 relative overflow-hidden rounded-xl border border-gray-800">
+                <div class="content-wrapper">
+                    <div class="bg-gray-900/50 p-6">
+                        <h2 class="text-2xl font-semibold mb-6 flex items-center">
+                            📊 Task Status Overview
+                        </h2>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <div class="bg-red-900/20 border border-red-800 rounded-lg p-4">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <p class="text-red-400 text-sm font-medium">Not Started</p>
+                                        <p class="text-2xl font-bold text-white" id="not-started-count">0</p>
+                                    </div>
+                                    <div class="text-red-400 text-2xl">⏳</div>
+                                </div>
+                            </div>
+                            <div class="bg-yellow-900/20 border border-yellow-800 rounded-lg p-4">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <p class="text-yellow-400 text-sm font-medium">In Progress</p>
+                                        <p class="text-2xl font-bold text-white" id="in-progress-count">0</p>
+                                    </div>
+                                    <div class="text-yellow-400 text-2xl">🔄</div>
+                                </div>
+                            </div>
+                            <div class="bg-green-900/20 border border-green-800 rounded-lg p-4">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <p class="text-green-400 text-sm font-medium">Completed</p>
+                                        <p class="text-2xl font-bold text-white" id="completed-count">0</p>
+                                    </div>
+                                    <div class="text-green-400 text-2xl">✅</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Views -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+                <!-- Urgent Tasks -->
+                <div class="relative overflow-hidden rounded-xl border border-gray-800">
+                    <div class="content-wrapper">
+                        <div class="bg-gray-900/50 p-6">
+                            <h3 class="text-xl font-semibold mb-4 text-red-400 flex items-center">
+                                🚨 Urgent Tasks
+                            </h3>
+                            <div id="urgent-tasks" class="space-y-3">
+                                <!-- Urgent tasks will be populated by JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- This Week's Tasks -->
+                <div class="relative overflow-hidden rounded-xl border border-gray-800">
+                    <div class="content-wrapper">
+                        <div class="bg-gray-900/50 p-6">
+                            <h3 class="text-xl font-semibold mb-4 text-blue-400 flex items-center">
+                                📅 This Week's Tasks
+                            </h3>
+                            <div id="this-week-tasks" class="space-y-3">
+                                <!-- This week's tasks will be populated by JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Academic Focus Areas -->
+            <div class="relative overflow-hidden rounded-xl border border-gray-800">
+                <div class="content-wrapper">
+                    <div class="bg-gray-900/50 p-6">
+                        <h3 class="text-xl font-semibold mb-6 text-purple-400 flex items-center">
+                            🎓 Academic Focus Areas
+                        </h3>
+                        <div id="subject-breakdown" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                            <!-- Subject breakdown will be populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- All Tasks View -->
+        <div id="tasks-view" class="view-content hidden">
+            <div class="mb-8">
+                <h1 class="text-3xl font-bold mb-4">All Tasks</h1>
+                <div class="flex flex-wrap gap-4 mb-6">
+                    <select id="filter-status" class="bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-white">
+                        <option value="">All Status</option>
+                        <option value="not-started">Not Started</option>
+                        <option value="in-progress">In Progress</option>
+                        <option value="completed">Completed</option>
+                    </select>
+                    <select id="filter-priority" class="bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-white">
+                        <option value="">All Priorities</option>
+                        <option value="high">High Priority</option>
+                        <option value="medium">Medium Priority</option>
+                        <option value="low">Low Priority</option>
+                    </select>
+                    <select id="filter-subject" class="bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-white">
+                        <option value="">All Subjects</option>
+                    </select>
+                    <input type="text" id="search-tasks" placeholder="Search tasks..." class="bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-white flex-grow max-w-md">
+                </div>
+            </div>
+            
+            <div id="tasks-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Tasks will be populated by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Calendar View -->
+        <div id="calendar-view" class="view-content hidden">
+            <div class="mb-8">
+                <h1 class="text-3xl font-bold mb-4">📅 Calendar View</h1>
+                <p class="text-gray-300">View your tasks organized by due dates</p>
+            </div>
+            
+            <div class="relative overflow-hidden rounded-xl border border-gray-800">
+                <div class="content-wrapper">
+                    <div id="calendar-container" class="bg-gray-900/50 p-6">
+                        <!-- Calendar will be populated by JavaScript -->
+                        <div class="text-center text-gray-400 py-12">
+                            <p class="text-lg">Calendar view coming soon!</p>
+                            <p class="text-sm">For now, check the dashboard for urgent and weekly tasks.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Analytics View -->
+        <div id="analytics-view" class="view-content hidden">
+            <div class="mb-8">
+                <h1 class="text-3xl font-bold mb-4">📈 Analytics</h1>
+                <p class="text-gray-300">Track your productivity and task completion patterns</p>
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div class="relative overflow-hidden rounded-xl border border-gray-800">
+                    <div class="content-wrapper">
+                        <div class="bg-gray-900/50 p-6">
+                            <h3 class="text-xl font-semibold mb-4">Completion Rate</h3>
+                            <div class="text-center py-8">
+                                <div class="text-4xl font-bold text-green-400" id="completion-rate">0%</div>
+                                <p class="text-gray-400 mt-2">Overall completion rate</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="relative overflow-hidden rounded-xl border border-gray-800">
+                    <div class="content-wrapper">
+                        <div class="bg-gray-900/50 p-6">
+                            <h3 class="text-xl font-semibold mb-4">Priority Distribution</h3>
+                            <div id="priority-chart" class="space-y-3">
+                                <!-- Priority chart will be populated by JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-8 relative overflow-hidden rounded-xl border border-gray-800">
+                <div class="content-wrapper">
+                    <div class="bg-gray-900/50 p-6">
+                        <h3 class="text-xl font-semibold mb-4">Productivity Insights</h3>
+                        <div id="productivity-insights" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <!-- Productivity insights will be populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-8 relative overflow-hidden rounded-xl border border-gray-800">
+                <div class="content-wrapper">
+                    <div class="bg-gray-900/50 p-6">
+                        <h3 class="text-xl font-semibold mb-4">Subject Performance</h3>
+                        <div id="subject-performance" class="space-y-4">
+                            <!-- Subject performance will be populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Add Task Modal -->
+    <div id="add-task-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-gray-900 rounded-xl p-6 w-full max-w-md border border-gray-800">
+                <h2 class="text-xl font-semibold mb-4">Add New Task</h2>
+                <form id="add-task-form" class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-300 mb-2">Task Title</label>
+                        <input type="text" id="task-title" class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-white focus:border-purple-500 focus:outline-none" placeholder="Enter task title" required>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-300 mb-2">Subject</label>
+                        <select id="task-subject" class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-white focus:border-purple-500 focus:outline-none" required>
+                            <option value="">Select subject</option>
+                            <option value="Databases">Databases</option>
+                            <option value="Artificial Intelligence">Artificial Intelligence</option>
+                            <option value="Compiler Design">Compiler Design</option>
+                            <option value="Operating Systems">Operating Systems</option>
+                            <option value="Computer Networks">Computer Networks</option>
+                            <option value="Algorithms">Algorithms</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-300 mb-2">Priority</label>
+                        <select id="task-priority" class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-white focus:border-purple-500 focus:outline-none" required>
+                            <option value="high">High Priority</option>
+                            <option value="medium">Medium Priority</option>
+                            <option value="low">Low Priority</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-300 mb-2">Due Date</label>
+                        <input type="date" id="task-due-date" class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-white focus:border-purple-500 focus:outline-none" required>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-300 mb-2">Description (Optional)</label>
+                        <textarea id="task-description" class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-white focus:border-purple-500 focus:outline-none" rows="3" placeholder="Task description..."></textarea>
+                    </div>
+                    
+                    <div class="flex space-x-4">
+                        <button type="submit" class="flex-1 bg-purple-600 hover:bg-purple-700 text-white py-2 px-4 rounded-lg font-medium transition-colors">
+                            Add Task
+                        </button>
+                        <button type="button" onclick="hideAddTaskModal()" class="flex-1 bg-gray-700 hover:bg-gray-600 text-white py-2 px-4 rounded-lg font-medium transition-colors">
+                            Cancel
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

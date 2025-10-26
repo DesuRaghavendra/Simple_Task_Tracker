@@ -1,0 +1,74 @@
+/* Grid background animation */
+.grid-background-dense {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-size: 40px 40px;
+    background-image: linear-gradient(to right, rgba(55, 65, 81, 0.1) 1px, transparent 1px),
+                      linear-gradient(to bottom, rgba(55, 65, 81, 0.1) 1px, transparent 1px);
+    z-index: -1;
+}
+
+.animated-grid {
+    animation: gridAnimation 120s linear infinite;
+}
+
+@keyframes gridAnimation {
+    0% {
+        background-position: 0 0;
+    }
+    100% {
+        background-position: 1000px 1000px;
+    }
+}
+
+/* Content wrapper for grid background */
+.content-wrapper {
+    position: relative;
+    z-index: 1;
+}
+
+/* View transitions */
+.view-content {
+    transition: opacity 0.3s ease;
+}
+
+/* Toast animations */
+@keyframes fade-in {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fade-out {
+    from { opacity: 1; transform: translateY(0); }
+    to { opacity: 0; transform: translateY(10px); }
+}
+
+.animate-fade-in {
+    animation: fade-in 0.3s ease forwards;
+}
+
+.animate-fade-out {
+    animation: fade-out 0.3s ease forwards;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(31, 41, 55, 0.5);
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(109, 40, 217, 0.5);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(109, 40, 217, 0.7);
+}
