@@ -1,43 +1,37 @@
 # 📝 Task Tracker Website
 
-A responsive and interactive **Task Management Web Application** built using **HTML5, CSS3, JavaScript, and Tailwind CSS**.  
-This project focuses on efficient task handling, priority sorting, and dynamic UI updates using data structures and algorithms.
+A simple, responsive **Task Management Web Application** built using **HTML, CSS, and JavaScript**.  
+The app allows users to add, update, delete, and prioritize tasks while storing data locally using the browser’s LocalStorage.  
+This project focuses on problem-solving, data handling, and DOM-based interactivity.
 
 ---
 
 ## 🚀 Features
 
-### ✅ Task Management  
-- Add, edit, delete tasks  
-- Organize tasks using **custom data structures**  
-- Sort tasks based on **priority**, **date**, or **status**
+### ✅ Core Features
+- Add, edit, and delete tasks  
+- Mark tasks as completed  
+- LocalStorage support → tasks are saved even after refreshing  
+- Priority-based task sorting (High, Medium, Low)
 
-### 📊 Priority & Sorting Algorithms  
-- Implemented sorting logic to arrange tasks efficiently  
-- Ensures high-priority tasks appear first  
-- Optimized for quick task retrieval and updates
+### 🎯 How It Works
+- Tasks are stored in arrays and objects (data structures)  
+- JavaScript sorting logic organizes tasks by priority  
+- DOM manipulation updates UI dynamically in real-time
 
-### 🌐 Responsive UI  
-- Designed using **modern UI/UX principles**  
-- Fully responsive layout using **Tailwind CSS**  
-- Cross-browser compatible and mobile-friendly
+---
 
-### ⚡ Dynamic Functionality  
-- **Real-time task updates** without page reload  
-- Interactive UI through DOM manipulation  
-- **LocalStorage** integration for persistence  
-- Smooth animations and clean interface
+## 🖥️ Frontend Features
+- Fully responsive layout  
+- Clean and modern UI built with **CSS / Tailwind CSS (CDN)**  
+- Smooth interactions and lightweight design  
+- Supports all modern browsers
 
 ---
 
 ## 🛠️ Tech Stack
-
-- **HTML5** – Semantic structure  
-- **CSS3 + Tailwind CSS** – Styling & responsive design  
-- **JavaScript (ES6)** – Algorithms, interactivity, task logic  
-- **LocalStorage API** – Client-side state persistence
+- **HTML5** — structure  
+- **CSS3 / Tailwind CSS** — styling & responsiveness  
+- **JavaScript (ES6)** — dynamic functionality, algorithms, LocalStorage  
 
 ---
-
-## 📁 Project Structure
-
